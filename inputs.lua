@@ -13,8 +13,8 @@ function getGamepadInputs(car)
 
 	local angle = math.atan2(axisY, axisX)
 
-	inputs.crosshairX = car.x + car.fireXoffset + math.cos(angle) * 100
-	inputs.crosshairY = car.y + car.fireYoffset + math.sin(angle) * 100
+	inputs.crosshairX = car.body:getX() + car.fireXoffset + math.cos(angle) * 100
+	inputs.crosshairY = car.body:getY() + car.fireYoffset + math.sin(angle) * 100
 
     if gamepad:isGamepadDown("leftshoulder") then
     	inputs.jump = true

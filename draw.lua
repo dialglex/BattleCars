@@ -1,23 +1,31 @@
 function drawCar(car)
 	love.graphics.setColor(255, 255, 255)
 	if car.primaryshoot then
-		love.graphics.draw(car.canvas, car.x, car.y, car.rotation, 1, 1, car.image:getWidth() / 2, car.image:getHeight() / 2 + car.primarygunimage:getHeight())
+		if car.flip == false then
+			love.graphics.draw(car.canvas, car.body:getX(), car.body:getY(), car.body:getAngle(), 1, 1, car.image:getWidth() / 2, car.image:getHeight() / 2 + car.primarygunimage:getHeight())
+		else
+			love.graphics.draw(car.canvas, car.body:getX(), car.body:getY(), car.body:getAngle(), -1, 1, car.image:getWidth() / 2, car.image:getHeight() / 2 + car.primarygunimage:getHeight())
+		end
 	elseif car.secondaryshoot then
-		love.graphics.draw(car.canvas, car.x, car.y, car.rotation, 1, 1, car.image:getWidth() / 2, car.image:getHeight() / 2 + car.secondarygunimage:getHeight())
+		if car.flip == false then
+			love.graphics.draw(car.canvas, car.body:getX(), car.body:getY(), car.body:getAngle(), 1, 1, car.image:getWidth() / 2, car.image:getHeight() / 2 + car.secondarygunimage:getHeight())
+		else
+			love.graphics.draw(car.canvas, car.body:getX(), car.body:getY(), car.body:getAngle(), -1, 1, car.image:getWidth() / 2, car.image:getHeight() / 2 + car.secondarygunimage:getHeight())
+		end
 	end
 
 	if car.primaryshoot and car.firecounter < 5 then
-		love.graphics.draw(car.primarygunfireeffect, car.fireX, car.fireY)
+		love.graphics.draw(car.primarygunfireeffect, car.fireX, car.fireY, car.body:getAngle())
 		car.firecounter = car.firecounter + 1
 	end
 
 	if car.secondaryshoot and car.firecounter < 5 then
-		love.graphics.draw(car.secondarygunfireeffect, car.fireX, car.fireY)
+		love.graphics.draw(car.secondarygunfireeffect, car.fireX, car.fireY, car.body:getAngle())
 		car.firecounter = car.firecounter + 1
 	end
 
 	for i, v in ipairs(car.primarygunbullets) do
-		love.graphics.draw(car.primarygunbulletimage, v.x, v.y, v.angle)
+		love.graphics.draw(car.primarygunbulletimage, v.body:getX(), v.body:getY(), v.angle)
 	end
 	for i, v in ipairs(car.secondarygunbullets) do
 		love.graphics.draw(car.secondarygunbulletimage, v.x, v.y, v.angle)
@@ -79,11 +87,9 @@ function drawArmour(car)
 	end
 
 	love.graphics.draw(armourimage, car.armourX, car.armourY)
-	love.graphics.draw(movementabilityicon, car.armourX + 96, car.armourY + 82)
 
 	love.graphics.setFont(armourfont)
 	love.graphics.printf(car.hp .. "%", car.armourX + 13, car.armourY + 45, 72, "center")
-	love.graphics.printf("10", car.armourX + 78, car.armourY + 90, 72, "center")
 end
 
 function drawCrosshair(car)
